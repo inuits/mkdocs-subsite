@@ -11,7 +11,7 @@ setuptools.setup(
     version="0.0.1",
     author="Jakub Zárybnický",
     author_email="jakub.zarybnicky@inuits.eu",
-    description="Add a standalone MkDocs project as a subsite to another one",
+    description="MkDocs plugin for integrating standalone MkDocs git submodules into a main repo",
     url="https://github.com/inuits/mkdocs-subsite",
     packages=setuptools.find_packages(),
     install_requires=[x for x in requires if x and not x.startswith('#')],

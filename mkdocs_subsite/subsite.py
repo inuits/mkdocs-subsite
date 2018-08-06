@@ -53,6 +53,7 @@ def get_files(base_dir, config):
     files = []
     exclude = ['.*', '/templates']
 
+    base = os.path.relpath(base_dir, config['docs_dir'])
     for source_dir, dirnames, filenames in os.walk(base_dir, followlinks=True):
         relative_dir = os.path.relpath(source_dir, config['docs_dir'])
 
@@ -69,9 +70,9 @@ def get_files(base_dir, config):
             if _filter_paths(basename=filename, path=path, is_dir=False, exclude=exclude):
                 continue
             f = File(path, config['docs_dir'], config['site_dir'], config['use_directory_urls'])
-            f.dest_path = f.dest_path.replace(relative_dir + '/', '')
+            f.dest_path = f.dest_path.replace(base + '/', '')
             f.abs_dest_path = os.path.normpath(os.path.join(config['site_dir'], f.dest_path))
-            f.url = f.url.replace(relative_dir + '/', '')
+            f.url = f.url.replace(base + '/', '')
             files.append(f)
 
     return (files, {file.src_path: file for file in files})
