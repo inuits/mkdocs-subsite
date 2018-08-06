@@ -30,18 +30,22 @@ class SubsitePlugin(BasePlugin):
                 mountpoint[key] = [{'Home': mountpoint[key]}]
             with open(os.path.join(site['base_path'], 'mkdocs.yml')) as f:
                 cfg = yaml.load(f)
-            sub_base = os.path.relpath(os.path.abspath(site['base_path']), config['docs_dir'])
-            sub_docs = cfg.get('docs_dir', 'docs')
+            sub_docs = os.path.join(
+                os.path.relpath(os.path.abspath(site['base_path']), config['docs_dir']),
+                cfg.get('docs_dir', 'docs'))
             def relativize(x):
                 for k, v in x.items():
                     if isinstance(v, list):
                         for vv in v:
                             relativize(vv)
                     else:
-                        x[k] = os.path.join(sub_base, sub_docs, v) #pylint: disable=cell-var-from-loop
+                        x[k] = os.path.join(sub_docs, v) #pylint: disable=cell-var-from-loop
             sub = {'_root': cfg.get('nav', None) or cfg['pages']}
             relativize(sub)
             mountpoint[key] += sub['_root']
+
+            config['extra_css'] += cfg.get('extra_css', [])
+            config['extra_javascript'] += cfg.get('extra_javascript', [])
         return config
 
     def on_files(self, files, config):
