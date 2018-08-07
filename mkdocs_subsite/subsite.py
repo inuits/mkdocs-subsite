@@ -50,12 +50,13 @@ class SubsitePlugin(BasePlugin):
 
     def on_files(self, files, config):
         for site in self.config['sites']:
-            (_files, src_paths) = get_files(os.path.join(site['base_path'], 'docs'), config)
+            (_files, src_paths) = get_files(
+                os.path.join(site['base_path'], 'docs'), config, site)
             files._files += _files
             files.src_paths.update(src_paths)
         return files
 
-def get_files(base_dir, config):
+def get_files(base_dir, config, site):
     files = []
     exclude = ['.*', '/templates']
 
@@ -79,6 +80,9 @@ def get_files(base_dir, config):
             f.dest_path = f.dest_path.replace(base + '/', '')
             f.abs_dest_path = os.path.normpath(os.path.join(config['site_dir'], f.dest_path))
             f.url = f.url.replace(base + '/', '')
+            if f.url == '':
+                # Skip docs/index.md, use the one from root repo
+                continue
             files.append(f)
 
     return (files, {file.src_path: file for file in files})
