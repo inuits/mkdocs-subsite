@@ -10,6 +10,11 @@ from mkdocs.plugins import BasePlugin
 from mkdocs.config import config_options
 import yaml
 
+try:
+  basestring
+except NameError:
+  basestring = str
+
 class SubsitePlugin(BasePlugin):
     config_scheme = (('sites', config_options.Type(list)),)
 
@@ -19,7 +24,7 @@ class SubsitePlugin(BasePlugin):
             for part in site['nav_path'].split('/'):
                 mountpoint_old = mountpoint
                 for item in mountpoint[key]:
-                    new = item.keys()[0]
+                    new = list(item)[0]
                     if part == new:
                         mountpoint, key = item, new
                         break
