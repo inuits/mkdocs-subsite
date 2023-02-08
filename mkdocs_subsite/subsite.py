@@ -34,7 +34,7 @@ class SubsitePlugin(BasePlugin):
             if isinstance(mountpoint[key], basestring):
                 mountpoint[key] = [{'Home': mountpoint[key]}]
             with open(os.path.join(site['base_path'], 'mkdocs.yml')) as f:
-                cfg = yaml.load(f)
+                cfg = yaml.safe_load(f)
             sub_docs = os.path.join(
                 os.path.relpath(os.path.abspath(site['base_path']), config['docs_dir']),
                 cfg.get('docs_dir', 'docs'))
