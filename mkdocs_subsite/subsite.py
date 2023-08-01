@@ -4,7 +4,7 @@
 from __future__ import division, print_function
 import os.path
 
-from mkdocs.structure.files import _sort_files, _filter_paths, File
+from mkdocs.structure.files import _sort_files, _filter_paths, File, InclusionLevel
 from mkdocs.structure.nav import Section
 from mkdocs.plugins import BasePlugin
 from mkdocs.config import config_options
@@ -85,7 +85,7 @@ def get_files(base_dir, config, site):
             f.dest_path = f.dest_path.replace(base + '/', '')
             f.abs_dest_path = os.path.normpath(os.path.join(config['site_dir'], f.dest_path))
             f.url = f.url.replace(base + '/', '')
-            f.inclusion = 1
+            f.inclusion = InclusionLevel.INCLUDED
             if f.url == '':
                 # Skip docs/index.md, use the one from root repo
                 continue
