@@ -8,7 +8,7 @@ with open("requirements.txt", "r") as fh:
 
 setuptools.setup(
     name="mkdocs-subsite",
-    version="0.0.1",
+    version="1.1.0",
     author="Jakub Zárybnický",
     author_email="jakub.zarybnicky@inuits.eu",
     description="MkDocs plugin for integrating standalone MkDocs git submodules into a main repo",

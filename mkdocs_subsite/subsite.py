@@ -85,6 +85,7 @@ def get_files(base_dir, config, site):
             f.dest_path = f.dest_path.replace(base + '/', '')
             f.abs_dest_path = os.path.normpath(os.path.join(config['site_dir'], f.dest_path))
             f.url = f.url.replace(base + '/', '')
+            f.inclusion = 1
             if f.url == '':
                 # Skip docs/index.md, use the one from root repo
                 continue
