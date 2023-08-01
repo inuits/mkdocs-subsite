@@ -1,6 +1,7 @@
 # pylint: disable=invalid-name, missing-docstring, too-few-public-methods
 
 from __future__ import division, print_function
+import fnmatch
 import os.path
 
 from mkdocs.structure.files import _sort_files, File, InclusionLevel
@@ -92,7 +93,7 @@ def get_files(base_dir, config, site):
 
     return (files, {file.src_path: file for file in files})
 
-def _filter_paths(basename: str, path: str, is_dir: bool, exclude: Iterable[str]) -> bool:
+def _filter_paths(basename, path, is_dir, exclude) -> bool:
     for item in exclude:
         # Items ending in '/' apply only to directories.
         if item.endswith('/') and not is_dir:
