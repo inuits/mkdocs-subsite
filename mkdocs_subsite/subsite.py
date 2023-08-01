@@ -1,10 +1,9 @@
-# -*- flycheck-python-pylint-executable: "pylint" -*-
 # pylint: disable=invalid-name, missing-docstring, too-few-public-methods
 
 from __future__ import division, print_function
 import os.path
 
-from mkdocs.structure.files import _sort_files, _filter_paths, File, InclusionLevel
+from mkdocs.structure.files import _sort_files, File, InclusionLevel
 from mkdocs.structure.nav import Section
 from mkdocs.plugins import BasePlugin
 from mkdocs.config import config_options
@@ -92,3 +91,15 @@ def get_files(base_dir, config, site):
             files.append(f)
 
     return (files, {file.src_path: file for file in files})
+
+def _filter_paths(basename: str, path: str, is_dir: bool, exclude: Iterable[str]) -> bool:
+    for item in exclude:
+        # Items ending in '/' apply only to directories.
+        if item.endswith('/') and not is_dir:
+            continue
+        # Items starting with '/' apply to the whole path.
+        # In any other cases just the basename is used.
+        match = path if item.startswith('/') else basename
+        if fnmatch.fnmatch(match, item.strip('/')):
+            return True
+    return False
