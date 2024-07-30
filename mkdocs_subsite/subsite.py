@@ -57,7 +57,8 @@ class SubsitePlugin(BasePlugin):
         for site in self.config['sites']:
             (_files, src_paths) = get_files(
                 os.path.join(site['base_path'], 'docs'), config, site)
-            files._files += _files
+            for file in _files:
+                files.append(file)
             files.src_paths.update(src_paths)
         return files
 
